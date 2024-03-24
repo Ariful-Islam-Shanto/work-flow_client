@@ -4,9 +4,9 @@ const Navbar = () => {
 
     const user = false;
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-transparent min-h-[10vh]">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl"><img src="https://res.cloudinary.com/debqyv4o6/image/upload/v1711266614/WorkflowLogo_adch3i.svg" alt="" /></a>
+        <a className=""><img src="https://res.cloudinary.com/debqyv4o6/image/upload/v1711266614/WorkflowLogo_adch3i.svg" alt="" /></a>
       </div>
       <div className="flex-none">
        {user === true ?  <div className="dropdown dropdown-end">
@@ -40,7 +40,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div> : 
-        <button className="px-8 py-3 text-sm font-bold text-white border-2 border-white rounded-[40px]">Sign Up</button>
+        <button className="px-8 py-3 text-sm font-bold text-white border-2 border-white rounded-[40px] hover:bg-white transition-all duration-200 ease-in-out hover:text-gray-900">Sign In</button>
     }
         </div>
     </div>
