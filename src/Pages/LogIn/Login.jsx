@@ -18,9 +18,8 @@ const Login = () => {
   };
   
   return (
-    <div className="h-screen flex items-center  justify-between">
-      <Container>
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen flex items-center  justify-center">
+        {/* <div className="flex items-center justify-between"> */}
           {/* <div className="flex-1">
             <h1 className="text-4xl text-white font-bold">
                 Welcome back!
@@ -30,9 +29,9 @@ const Login = () => {
               alt=""
             />
           </div> */}
-          <div className=" flex-1 flex items-center justify-center      h-[100vh]">
+          
             {/* Tabs */}
-            <div className=" mx-auto">
+            <div className=" px-[2%] w-full md:px-0 md:w-96 mx-auto">
       <div className="relative right-0">
        
 
@@ -84,9 +83,9 @@ const Login = () => {
       </div>
     </div>
          
-          </div>
-        </div>
-      </Container>
+          {/* </div> */}
+        {/* </div> */}
+
     </div>
   );
 };

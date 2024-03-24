@@ -1,15 +1,17 @@
 import React from "react";
+import UseAuth from "../../Hooks/UseAuth";
 
 const Navbar = () => {
 
-    const user = false;
+    const {user, logOut} = UseAuth();
+
   return (
     <div className="navbar bg-transparent min-h-[10vh]">
       <div className="flex-1">
         <a className=""><img src="https://res.cloudinary.com/debqyv4o6/image/upload/v1711266614/WorkflowLogo_adch3i.svg" alt="" /></a>
       </div>
       <div className="flex-none">
-       {user === true ?  <div className="dropdown dropdown-end">
+       {user ?  <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
@@ -18,13 +20,13 @@ const Navbar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src={user?.photoURL}
               />
             </div>
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[9999] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
               <a className="justify-between">
@@ -33,10 +35,11 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a>Settings</a>
+              <a>{user?.displayName}</a>
+              <a>{user?.email}</a>
             </li>
             <li>
-              <a>Logout</a>
+              <button onClick={logOut}>Logout</button>
             </li>
           </ul>
         </div> : 
