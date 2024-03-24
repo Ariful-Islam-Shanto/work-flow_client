@@ -5,10 +5,10 @@ import Container from '../Components/Container/Container';
 
 const Main = () => {
     return (
-        <div className='bg-[#1063ba]'>
-           <Container>
+        <div className='bg-[#000b2a]'>
+           {/* <Container>
            <Navbar/>
-           </Container>
+           </Container> */}
             <Outlet/>
         </div>
     );

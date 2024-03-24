@@ -1,16 +1,22 @@
 import React from "react";
 import Container from "../Container/Container";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+
+    const navigate = useNavigate();
+
   return (
-    <div className="bg-[#1b1b1b] flex items-center justify-between min-h-[90vh] relative">
+    <div className="bg-[#000b2a] flex items-center justify-between min-h-[90vh] relative">
      <Container>
         <div className="flex items-center justify-between">
          {/* Hero left content */}
       <div className="flex flex-col items-start justify-between flex-1">
         <h1 className="text-5xl text-white font-bold">Let’s create a space <br /> For your <span className="text-transparent bg-gradient-to-tr from-[#cffd00] to-[#00FFA3] bg-clip-text">workflows</span></h1>
         <p className="text-[16px] mt-10 text-gray-300">Simplify task management with intuitive organization and seamless collaboration. Stay focused, achieve more.</p>
-        <button className="bg-gradient-to-tr mt-10 from-[#cffd00] to-[#00FFA3] px-8 py-3 rounded-[40px] text-gray-900 font-bold text-sm">Get Started</button>
+        <button onClick={() => {
+            navigate('/login')
+        }} className="bg-gradient-to-tr mt-10 from-[#cffd00] to-[#00FFA3] px-8 py-3 rounded-[40px] text-gray-900 font-bold text-sm">Get Started</button>
       </div>
 
       {/* Hero right content */}
