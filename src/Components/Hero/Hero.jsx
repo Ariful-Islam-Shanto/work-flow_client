@@ -9,7 +9,7 @@ const Hero = () => {
   return (
     <div className="bg-[#000b2a] flex items-center justify-between min-h-[90vh] relative">
      <Container>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col-reverse lg:flex-row items-center justify-between">
          {/* Hero left content */}
       <div className="flex flex-col items-start justify-between flex-1">
         <h1 className="text-5xl text-white font-bold">Let’s create a space <br /> For your <span className="text-transparent bg-gradient-to-tr from-[#cffd00] to-[#00FFA3] bg-clip-text">workflows</span></h1>
