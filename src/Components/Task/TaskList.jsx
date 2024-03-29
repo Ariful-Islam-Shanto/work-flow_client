@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import TaskItem from './TaskItem';
 
-const TaskList = ({handleDeleteTask, setIsEditTask,handleEditTask, heading, allTasks = [], type, filterByPriority, filterByDate, filterByAssignee}) => {
+const TaskList = ({handleDeleteTask, setIsEditTask,handleEditTask, heading, allTasks = [], type, filterByPriority, filterByDate, filterByAssignee, sortDirection}) => {
 
+
+        // Define a priority map to assign numerical values to each priority level
+        const priorityMap = {
+            'p0': 0,
+            'p1': 1,
+            'p2': 2
+        };
+    
       // Filter tasks by type
       let specificTypeTasks = allTasks.filter(task => task.status === type);
 
@@ -20,6 +28,23 @@ const TaskList = ({handleDeleteTask, setIsEditTask,handleEditTask, heading, allT
     if (filterByAssignee) {
         specificTypeTasks = specificTypeTasks.filter(task => task.assignee === filterByAssignee);
     }
+
+
+     // Sort tasks based on sortDirection (ascending or descending)
+     specificTypeTasks.sort((taskA, taskB) => {
+        const priorityA = priorityMap[taskA.priority];
+        const priorityB = priorityMap[taskB.priority];
+
+        // Determine sorting direction based on sortDirection variable
+        if (sortDirection === 'ascending') {
+            return priorityA - priorityB;
+        } else if (sortDirection === 'descending') {
+            return priorityB - priorityA;
+        } else {
+            // Default to ascending sorting if sortDirection is not provided or invalid
+            return priorityA - priorityB;
+        }
+    });
 
     return (
         <div className='h-full w-full border-[1px] border-[#e1e1e11a]'>

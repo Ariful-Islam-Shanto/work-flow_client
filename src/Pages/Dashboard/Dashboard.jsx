@@ -22,6 +22,9 @@ const Dashboard = () => {
   const [filterByPriority, setFilterByPriority] = useState('');
   const [filterByDate, setFilterByDate] = useState('');
   const [filterByAssignee, setFilterByAssignee] = useState('');
+
+  //? All sorting options
+  const [sortDirection, setSortDirection] = useState('')
   
   console.log(filterByAssignee);
   console.log("all tasks", tasks);
@@ -29,6 +32,7 @@ const Dashboard = () => {
     const [isEditTask, setIsEditTask] = useState(false);
     const [editableTask, setEditableTask] = useState({});
     const taskTypes = ["Pending", "In Progress", "Completed", "Deployed", "Deferred"];
+
 
     //? Handle task edit
     const handleEditTask = (id) => {
@@ -134,7 +138,9 @@ const Dashboard = () => {
             </div>
 
              <div className='flex mt-6 items-center justify-between'>
-                 {/* filter and sort */}
+                 {/* filter and sort wrap*/}
+                 <div>
+{/* Sort by priority, assignee, status */}
               <div className='flex items-center gap-8'>
                 <p>Filter By : </p>
                 <div className='flex flex-wrap items-center gap-4'>
@@ -153,6 +159,21 @@ const Dashboard = () => {
                     }} className='px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
                 </div>
             </div>
+            {/* Sort by priority */}
+            <div className='flex items-center gap-8'>
+                <p>Sort By : </p>
+                <div className='flex flex-wrap items-center gap-4'>
+                    
+                    <select onChange={(e=>
+                      setSortDirection(e.target.value))} className='px-5 py-2 bg-[#001f3e]' name="Priority" id="">
+                        <option selected value="Priority" disabled>Priority</option>
+                        <option value="ascending">P0 - P2</option>
+                        <option value="descending">P2 - P0</option>
+                    </select>
+                 
+                </div>
+            </div>
+                 </div>
 
             {/* Add task button*/}
                 <button onClick={() => {
@@ -165,7 +186,7 @@ const Dashboard = () => {
 
                 <div className='flex flex-shrink-0 xl:flex-shrink-1  items-center overflow-x-scroll xl:overflow-x-visible justify-between mt-12 h-[60vh] gap-0'>
                     {taskTypes.map((type, index)=> 
-                        <TaskList handleDeleteTask={handleDeleteTask} setIsEditTask={setIsEditTask}  
+                        <TaskList sortDirection={sortDirection} handleDeleteTask={handleDeleteTask} setIsEditTask={setIsEditTask}  
                         handleEditTask={handleEditTask} filterByAssignee={filterByAssignee} filterByDate={filterByDate} filterByPriority={filterByPriority} type={type} allTasks={tasks} key={index} heading={type}/>
                         )}
                 </div>
