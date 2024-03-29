@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import TaskItem from './TaskItem';
 
-const TaskList = ({heading, allTasks}) => {
+const TaskList = ({heading, allTasks = [], type, filterByPriority, filterByDate, filterByAssignee}) => {
+
+      // Filter tasks by type
+      let specificTypeTasks = allTasks.filter(task => task.status === type);
+
+      // Filter tasks by priority, if filterByPriority is provided
+      if (filterByPriority) {
+          specificTypeTasks = specificTypeTasks.filter(task => task.priority === filterByPriority);
+      }
+
+      // Filter tasks by date, if filterByDate is provided
+    if (filterByDate) {
+        specificTypeTasks = specificTypeTasks.filter(task => task.startDate === filterByDate);
+    }
+
+      // Filter tasks by date, if filterByDate is provided
+    if (filterByAssignee) {
+        specificTypeTasks = specificTypeTasks.filter(task => task.assignee === filterByAssignee);
+    }
 
     return (
-        <div className='h-full w-full border-[1px] border-[#e1e1e1]'>
+        <div className='h-full w-full border-[1px] border-[#e1e1e11a]'>
             <div className='py-2 px-5 bg-[#001f3e] text-center w-full text-white'><h3 className='text-sm font-semibold '>{heading}</h3></div>
+
+            <div className="overflow-y-scroll h-[300px]">
+            {specificTypeTasks.map(task =>  
+               <TaskItem key={task.id} task={task} /> 
+                )}
+            </div>
         </div>
     );
 };

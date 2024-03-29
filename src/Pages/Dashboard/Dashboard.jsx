@@ -16,6 +16,12 @@ const Dashboard = () => {
     setTasks([...tasks, newTask]);
   };
 
+  //? All filtering options
+  const [filterByPriority, setFilterByPriority] = useState('');
+  const [filterByDate, setFilterByDate] = useState('');
+  const [filterByAssignee, setFilterByAssignee] = useState('');
+  
+  console.log(filterByAssignee);
   console.log("all tasks", tasks);
     const [isOpen, setIsOpen] = useState(false);
     const taskTypes = ["Pending", "In Progress", "Completed", "Deployed", "Deferred"];
@@ -26,7 +32,7 @@ const Dashboard = () => {
 
 {/* Add task modal */}
 {isOpen && 
-<div className='h-screen w-full z-10 fixed top-0 left-0 ' >
+<div className='h-screen max-w-[1280px] w-full z-10 fixed top-0 left-0 ' >
     <div className='absolute z-[5] w-full h-full bg-black opacity-60'></div>
         <div className="relative h-full z-10 flex items-center justify-center overflow-y-scroll">
             <AddTask setIsOpen={setIsOpen} addTask={addTask}/>
@@ -37,7 +43,7 @@ const Dashboard = () => {
 </div>
 }
          {/* Dashboard menu */}
-             <div className='w-[200px]  bg-gradient-to-br from-[#132854] to-[#000d29] min-h-screen'>
+             <div className='w-[200px] hidden lg:block bg-gradient-to-br from-[#132854] to-[#000d29] h-screen'>
                 <div className='flex pt-4 items-center justify-center'>
                
                 <a className=""><img src="https://res.cloudinary.com/debqyv4o6/image/upload/v1711266614/WorkflowLogo_adch3i.svg" alt="" className='text-black'/></a>
@@ -97,7 +103,7 @@ const Dashboard = () => {
               </NavLink>
             </ul>
              </div>
-             <div className='flex-1 px-6 py-6 min-h-screen '>
+             <div className='flex-1 px-6 py-6 h-screen '>
 
                 {/* dashboard header */}
              <div className="flex bg-transparent backdrop-blur-2xl border- border-gray-400  rounded-lg items-center justify-between gap-4">
@@ -106,7 +112,7 @@ const Dashboard = () => {
                   Hello Ariful Islam
                 </p>
                 <h1 className="text-md md:text-4xl font-semibold text-gray-100">
-                  You have got 4  task today.
+                  You have got {tasks.length} task today.
                 </h1>
               </div>
             
@@ -115,17 +121,22 @@ const Dashboard = () => {
 
              <div className='flex mt-6 items-center justify-between'>
                  {/* filter and sort */}
-              <div className='flex  items-center gap-8'>
+              <div className='flex items-center gap-8'>
                 <p>Filter By : </p>
-                <div className='flex items-center gap-4'>
-                    <input className='px-5 py-2 bg-[#001f3e]' type="text" name="" placeholder='Assignee' id="" />
-                    <select className='px-5 py-2 bg-[#001f3e]' name="Priority" id="">
+                <div className='flex flex-wrap items-center gap-4'>
+                    <input onChange={(e =>
+                    setFilterByAssignee(e.target.value))
+                    } className='px-5 py-2 bg-[#001f3e]' type="text" name="" placeholder='Assignee' id="" />
+                    <select onChange={(e=>
+                      setFilterByPriority(e.target.value))} className='px-5 py-2 bg-[#001f3e]' name="Priority" id="">
                         <option selected value="Priority" disabled>Priority</option>
                         <option value="p0">P0</option>
                         <option value="p1">P1</option>
                         <option value="p2">P2</option>
                     </select>
-                    <input className='px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
+                    <input onChange={(e) => {
+                      setFilterByDate(e.target.value);
+                    }} className='px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
                 </div>
             </div>
 
@@ -138,9 +149,9 @@ const Dashboard = () => {
 
                 {/* All Tasks */}
 
-                <div className='flex items-center justify-between mt-12 h-[60vh] gap-0'>
+                <div className='flex flex-shrink-0 xl:flex-shrink-1  items-center overflow-x-scroll xl:overflow-x-visible justify-between mt-12 h-[60vh] gap-0'>
                     {taskTypes.map((type, index)=> 
-                        <TaskList key={index} heading={type}/>
+                        <TaskList filterByAssignee={filterByAssignee} filterByDate={filterByDate} filterByPriority={filterByPriority} type={type} allTasks={tasks} key={index} heading={type}/>
                         )}
                 </div>
                  <Outlet/>
