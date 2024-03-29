@@ -6,7 +6,7 @@ const Navbar = () => {
     const {user, logOut} = UseAuth();
 
   return (
-    <div className="navbar bg-transparent min-h-[10vh]">
+    <div className="navbar bg-transparent min-h-[20vh] pt-5">
       <div className="flex-1">
         <a className=""><img src="https://res.cloudinary.com/debqyv4o6/image/upload/v1711266614/WorkflowLogo_adch3i.svg" alt="" /></a>
       </div>
