@@ -6,6 +6,8 @@ import { MdSpaceDashboard } from "react-icons/md";
 import TaskList from '../../Components/Task/TaskList';
 import AddTask from '../../Components/Task/AddTask';
 import { RxCross2 } from "react-icons/rx";
+import Modal from '../../Components/Modal/Modal';
+import EditTask from '../../Components/Task/EditTask';
 
 const Dashboard = () => {
   //? All tasks
@@ -24,24 +26,30 @@ const Dashboard = () => {
   console.log(filterByAssignee);
   console.log("all tasks", tasks);
     const [isOpen, setIsOpen] = useState(false);
+    const [isEditTask, setIsEditTask] = useState(false);
+    const [editableTask, setEditableTask] = useState({});
     const taskTypes = ["Pending", "In Progress", "Completed", "Deployed", "Deferred"];
+
+    //? Handle task edit
+    const handleEditTask = (id) => {
+      // console.log(id);
+      const editableTask = tasks.find(task => task.id === id);
+      console.log("editable task", editableTask);
+      setEditableTask(editableTask);
+    }
 
     return (
         
         <div  className='bg-gradient-to-br from-[#000d29] to-[#000d29] flex items-start justify-between min-h-screen'>
 
-{/* Add task modal */}
-{isOpen && 
-<div className='h-screen max-w-[1280px] w-full z-10 fixed top-0 left-0 ' >
-    <div className='absolute z-[5] w-full h-full bg-black opacity-60'></div>
-        <div className="relative h-full z-10 flex items-center justify-center overflow-y-scroll">
-            <AddTask setIsOpen={setIsOpen} addTask={addTask}/>
-        <button className='absolute top-5 right-5 px-3 py-3 text-lg text-black rounded-full bg-white' onClick={() =>
-        setIsOpen(false)
-        }><RxCross2/></button>
-        </div>
-</div>
-}
+{/* Add task by modal */}
+{isOpen && <Modal setIsOpen={setIsOpen} setIsEditTask={setIsEditTask}><AddTask setIsOpen={setIsOpen} addTask={addTask}/></Modal>}
+
+{/* Edit task by modal */}
+{isEditTask && <Modal setIsOpen={setIsOpen} setIsEditTask={setIsEditTask}>
+  <EditTask tasks={tasks} setTasks={setTasks} editableTask={editableTask} setIsEditTask={setIsEditTask}/>
+  </Modal>}
+
          {/* Dashboard menu */}
              <div className='w-[200px] hidden lg:block bg-gradient-to-br from-[#132854] to-[#000d29] h-screen'>
                 <div className='flex pt-4 items-center justify-center'>
@@ -151,7 +159,8 @@ const Dashboard = () => {
 
                 <div className='flex flex-shrink-0 xl:flex-shrink-1  items-center overflow-x-scroll xl:overflow-x-visible justify-between mt-12 h-[60vh] gap-0'>
                     {taskTypes.map((type, index)=> 
-                        <TaskList filterByAssignee={filterByAssignee} filterByDate={filterByDate} filterByPriority={filterByPriority} type={type} allTasks={tasks} key={index} heading={type}/>
+                        <TaskList setIsEditTask={setIsEditTask}  
+                        handleEditTask={handleEditTask} filterByAssignee={filterByAssignee} filterByDate={filterByDate} filterByPriority={filterByPriority} type={type} allTasks={tasks} key={index} heading={type}/>
                         )}
                 </div>
                  <Outlet/>

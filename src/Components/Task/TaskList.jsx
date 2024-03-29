@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TaskItem from './TaskItem';
 
-const TaskList = ({heading, allTasks = [], type, filterByPriority, filterByDate, filterByAssignee}) => {
+const TaskList = ({setIsEditTask,handleEditTask, heading, allTasks = [], type, filterByPriority, filterByDate, filterByAssignee}) => {
 
       // Filter tasks by type
       let specificTypeTasks = allTasks.filter(task => task.status === type);
@@ -25,9 +25,9 @@ const TaskList = ({heading, allTasks = [], type, filterByPriority, filterByDate,
         <div className='h-full w-full border-[1px] border-[#e1e1e11a]'>
             <div className='py-2 px-5 bg-[#001f3e] text-center w-full text-white'><h3 className='text-sm font-semibold '>{heading}</h3></div>
 
-            <div className="overflow-y-scroll h-[300px]">
+            <div className="overflow-y-auto h-[300px] flex flex-col gap-4">
             {specificTypeTasks.map(task =>  
-               <TaskItem key={task.id} task={task} /> 
+               <TaskItem setIsEditTask={setIsEditTask} handleEditTask={handleEditTask}  key={task.id} task={task} /> 
                 )}
             </div>
         </div>
