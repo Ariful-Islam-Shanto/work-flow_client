@@ -1,9 +1,10 @@
 import React from "react";
 import Container from "../Container/Container";
 import { useNavigate } from "react-router-dom";
+import UseAuth from "../../Hooks/UseAuth";
 
 const Hero = () => {
-
+    const {user} = UseAuth();
     const navigate = useNavigate();
 
   return (
@@ -12,10 +13,14 @@ const Hero = () => {
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between">
          {/* Hero left content */}
       <div className="flex flex-col w-full items-start justify-between flex-1 pb-6 lg:pb-0">
-        <h1 className="text-[42px] md:text-5xl leading-10 text-white font-bold">Let’s create a space <br/> For your <span className="text-transparent bg-gradient-to-tr from-[#cffd00] to-[#00FFA3] bg-clip-text">workflows</span></h1>
-        <p className="text-[12px] md:text-[14px] lg:text-[16px] mt-6 lg:mt-10 text-gray-300">Simplify task management with intuitive organization and <br className="inline-block lg:hidden" /> seamless collaboration. Stay focused, achieve more.</p>
+        <h1 className="text-[36px] md:text-5xl leading-10 text-white font-bold">Let’s create a space <br/> For your <span className="text-transparent bg-gradient-to-tr from-[#cffd00] to-[#00FFA3] bg-clip-text">workflows</span></h1>
+        <p className="text-[12px] md:text-[14px] lg:text-[16px] mt-6 lg:mt-10 text-gray-300">Simplify task management with intuitive organization and <span className="block lg:inline"> seamless collaboration. Stay focused, achieve more.</span></p>
         <button onClick={() => {
-            navigate('/login')
+            if(user) {
+              navigate('/dashboard');
+            }else{
+              navigate('/login');
+            }
         }} className="bg-gradient-to-tr mt-6 lg:mt-10 from-[#cffd00] to-[#00FFA3] px-8 py-3 rounded-[40px] w-full md:w-auto text-gray-900 font-bold text-sm">Get Started</button>
       </div>
 

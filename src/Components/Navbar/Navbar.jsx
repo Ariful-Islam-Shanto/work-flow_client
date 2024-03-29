@@ -1,9 +1,11 @@
 import React from "react";
 import UseAuth from "../../Hooks/UseAuth";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 
     const {user, logOut} = UseAuth();
+    const navigate = useNavigate();
 
   return (
     <div className="navbar bg-transparent min-h-[20vh] pt-5">
@@ -43,7 +45,9 @@ const Navbar = () => {
             </li>
           </ul>
         </div> : 
-        <button className="px-8 py-3 text-sm font-bold text-white border-2 border-white rounded-[40px] hover:bg-white transition-all duration-200 ease-in-out hover:text-gray-900">Sign In</button>
+        <button onClick={() => {
+          navigate('/login')
+        }} className="px-8 py-3 text-sm font-bold text-white border-2 border-white rounded-[40px] hover:bg-white transition-all duration-200 ease-in-out hover:text-gray-900">Sign In</button>
     }
         </div>
     </div>
