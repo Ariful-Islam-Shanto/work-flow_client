@@ -38,6 +38,12 @@ const Dashboard = () => {
       setEditableTask(editableTask);
     }
 
+    //? Handle delete task
+    const handleDeleteTask = (id) => {
+      const withoutDeletedTask = tasks?.filter(task => task.id !== id);
+      setTasks(withoutDeletedTask);
+    }
+
     return (
         
         <div  className='bg-gradient-to-br from-[#000d29] to-[#000d29] flex items-start justify-between min-h-screen'>
@@ -159,7 +165,7 @@ const Dashboard = () => {
 
                 <div className='flex flex-shrink-0 xl:flex-shrink-1  items-center overflow-x-scroll xl:overflow-x-visible justify-between mt-12 h-[60vh] gap-0'>
                     {taskTypes.map((type, index)=> 
-                        <TaskList setIsEditTask={setIsEditTask}  
+                        <TaskList handleDeleteTask={handleDeleteTask} setIsEditTask={setIsEditTask}  
                         handleEditTask={handleEditTask} filterByAssignee={filterByAssignee} filterByDate={filterByDate} filterByPriority={filterByPriority} type={type} allTasks={tasks} key={index} heading={type}/>
                         )}
                 </div>

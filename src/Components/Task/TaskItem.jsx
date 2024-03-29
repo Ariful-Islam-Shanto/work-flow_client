@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-const TaskItem = ({task, setIsEditTask ,handleEditTask,}) => {
+const TaskItem = ({task, setIsEditTask ,handleEditTask, handleDeleteTask}) => {
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleEditClick = (id) => {
+    setIsEditTask(true);
+    handleEditTask(id);
+    setIsDropdownOpen(false);
+  };
+
+  const handleDeleteClick = (id) => {
+    setIsDropdownOpen(false);
+    handleDeleteTask(id)
+  };
     return (
         <div className='bg-[#4995c1] p-3 shadow-xl rounded-xl'>
            <div className='flex items-center justify-between'>
@@ -14,9 +27,21 @@ const TaskItem = ({task, setIsEditTask ,handleEditTask,}) => {
            <div className='flex items-center justify-between'>
            <p className='text-xs mt-4 text-gray-200'>@{task?.assignee}</p>
             <button onClick={() => {
-                setIsEditTask(true);
-                handleEditTask(task?.id)
-            }} className='text-xs mt-4 text-gray-200'><BsThreeDotsVertical/></button>
+                setIsDropdownOpen(!isDropdownOpen)
+            }} className='relative text-xs mt-4 text-gray-200'><BsThreeDotsVertical/>
+             {isDropdownOpen && (
+          <div className="absolute right-0 top-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <button onClick={() => {
+                handleEditClick(task?.id)
+              }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full" role="menuitem">Edit</button>
+              <button onClick={() => {
+                handleDeleteClick(task?.id);
+              }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full" role="menuitem">Delete</button>
+            </div>
+          </div>
+        )}
+        </button>
            </div>
         </div>
     );
