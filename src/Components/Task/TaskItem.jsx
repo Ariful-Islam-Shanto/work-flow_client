@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 const TaskItem = ({task, setIsEditTask ,handleEditTask, handleDeleteTask}) => {
@@ -16,7 +17,7 @@ const TaskItem = ({task, setIsEditTask ,handleEditTask, handleDeleteTask}) => {
     handleDeleteTask(id)
   };
     return (
-        <div className='bg-[#4995c1] p-3 shadow-xl rounded-xl'>
+        <div className='bg-[#3a779a] p-3 shadow-xl rounded-xl'>
            <div className='flex items-center justify-between'>
            <p className='bg-gray-100 badge text-gray-900 '>{task?.priority}</p>
             <p className={`badge px-3 py-2 ${task?.status === "Completed" && 'bg-blue-300'} ${task?.status === "Pending" && 'bg-[#9d6da3]'} ${task?.status === "Deployed" && 'bg-green-300'} ${task?.status === "Deferred" && 'bg-red-300'} bg-[#c0ff3a] font-medium text-gray-900`}>{task?.status}</p>
@@ -36,7 +37,11 @@ const TaskItem = ({task, setIsEditTask ,handleEditTask, handleDeleteTask}) => {
                 handleEditClick(task?.id)
               }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full" role="menuitem">Edit</button>
               <button onClick={() => {
-                handleDeleteClick(task?.id);
+                if(task?.status === 'Completed') {
+                    toast.error("Completed task cannot be deleted");
+                }else{
+                    handleDeleteClick(task?.id);
+                }
               }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full" role="menuitem">Delete</button>
             </div>
           </div>

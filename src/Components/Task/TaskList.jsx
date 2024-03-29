@@ -47,10 +47,10 @@ const TaskList = ({handleDeleteTask, setIsEditTask,handleEditTask, heading, allT
     });
 
     return (
-        <div className='h-full w-full border-[1px] border-[#e1e1e11a]'>
-            <div className='py-2 px-5 bg-[#001f3e] text-center w-full text-white'><h3 className='text-sm font-semibold '>{heading}</h3></div>
+        <div className='h-full rounded-lg w-full border-[1px] border-[#e1e1e11a]'>
+            <div className='py-2 px-5 rounded-tl-lg rounded-tr-lg bg-[#01274d] text-center w-full text-white'><h3 className='text-sm font-semibold'>{heading}</h3></div>
 
-            <div className="overflow-y-auto h-[300px] flex flex-col gap-4">
+            <div className="overflow-auto w-[300px] h-[300px] flex flex-col gap-4 px-6">
             {specificTypeTasks.map(task =>  
                <TaskItem handleDeleteTask={handleDeleteTask} setIsEditTask={setIsEditTask} handleEditTask={handleEditTask}  key={task.id} task={task} /> 
                 )}

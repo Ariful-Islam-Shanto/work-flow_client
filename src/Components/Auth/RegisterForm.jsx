@@ -44,7 +44,7 @@ const RegisterForm = () => {
               
                   // setProcessing(false)
                   toast.success("Successfully Created Account.");
-                  navigate("/");
+                  navigate("/dashboard");
         
                 // }
             

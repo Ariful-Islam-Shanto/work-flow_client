@@ -22,7 +22,7 @@ const LoginForm = () => {
         .then(res => {
             console.log(res.user);
             toast.success('Successfully logged in.')
-            navigate('/')
+            navigate('/dashboard')
         })
         .catch((error) => {
             console.log(error.message);

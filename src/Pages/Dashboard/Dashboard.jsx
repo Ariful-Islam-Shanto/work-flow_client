@@ -8,6 +8,8 @@ import AddTask from '../../Components/Task/AddTask';
 import { RxCross2 } from "react-icons/rx";
 import Modal from '../../Components/Modal/Modal';
 import EditTask from '../../Components/Task/EditTask';
+import Swal from 'sweetalert2';
+import Header from '../../Components/Header/Header';
 
 const Dashboard = () => {
   //? All tasks
@@ -25,6 +27,9 @@ const Dashboard = () => {
 
   //? All sorting options
   const [sortDirection, setSortDirection] = useState('')
+
+  //? Handle dashboard menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   console.log(filterByAssignee);
   console.log("all tasks", tasks);
@@ -44,13 +49,48 @@ const Dashboard = () => {
 
     //? Handle delete task
     const handleDeleteTask = (id) => {
-      const withoutDeletedTask = tasks?.filter(task => task.id !== id);
-      setTasks(withoutDeletedTask);
+      Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+      });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const withoutDeletedTask = tasks?.filter(task => task.id !== id);
+          setTasks(withoutDeletedTask);
+
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your task has been deleted.",
+            icon: "success"
+          });
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire({
+            title: "Cancelled",
+            text: "Your task is safe :)",
+            icon: "error"
+          });
+        }
+      });
+     
     }
 
     return (
-        
-        <div  className='bg-gradient-to-br from-[#000d29] to-[#000d29] flex items-start justify-between min-h-screen'>
+        <div className='bg-gradient-to-br from-[#000d29] to-[#000d29]'>
+        <div  className='max-w-[1440px] mx-auto bg-gradient-to-br from-[#000d29] to-[#000d29] flex items-start justify-between min-h-screen'>
 
 {/* Add task by modal */}
 {isOpen && <Modal setIsOpen={setIsOpen} setIsEditTask={setIsEditTask}><AddTask setIsOpen={setIsOpen} addTask={addTask}/></Modal>}
@@ -61,7 +101,16 @@ const Dashboard = () => {
   </Modal>}
 
          {/* Dashboard menu */}
-             <div className='w-[200px] hidden lg:block bg-gradient-to-br from-[#132854] to-[#000d29] h-screen'>
+             <div className={` w-[200px] transition-all duration-300 ease-in-out fixed lg:relative z-[9999] top-0 ${isMenuOpen === false ? '-left-[100%] lg:left-[0%]' : ''} ${isMenuOpen === true ? 'left-[0%] lg:left-[0%]' : ''} lg:block bg-gradient-to-br from-[#132854] to-[#000d29] min-h-screen`}>
+
+             <div className=" lg:hidden relative h-full z-[10000] flex items-center justify-center ">
+            <button className='absolute top-[80vh] right-[38%] px-3 py-3 text-lg text-white rounded-full z-[10000]  bg-[#001f3e] hover:bg-[#122a5e]' onClick={() =>
+            {setIsMenuOpen(false)}
+            }><RxCross2/></button>
+            </div>
+
+
+
                 <div className='flex pt-4 items-center justify-center'>
                
                 <a className=""><img src="https://res.cloudinary.com/debqyv4o6/image/upload/v1711266614/WorkflowLogo_adch3i.svg" alt="" className='text-black'/></a>
@@ -81,23 +130,6 @@ const Dashboard = () => {
                   <a className="w-full">
                 
                     <MdSpaceDashboard/> Dashboard
-                  </a>
-                </li>
-              </NavLink>
-              <NavLink
-                to="todo"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "text-white text-center bg-[#3b82f6] rounded-sm"
-                    : "text-gray-400 rounded-sm text-center"
-                }
-              >
-                <li className=" w-full">
-                  <a className="w-full">
-                
-                     <FaTasks/> My Task
                   </a>
                 </li>
               </NavLink>
@@ -121,34 +153,25 @@ const Dashboard = () => {
               </NavLink>
             </ul>
              </div>
-             <div className='flex-1 px-6 py-6 h-screen '>
 
-                {/* dashboard header */}
-             <div className="flex bg-transparent backdrop-blur-2xl border- border-gray-400  rounded-lg items-center justify-between gap-4">
-              <div>
-                <p className="text-xs md:text-sm text-gray-300 font-thin">
-                  Hello Ariful Islam
-                </p>
-                <h1 className="text-md md:text-4xl font-semibold text-gray-100">
-                  You have got {tasks.length} task today.
-                </h1>
-              </div>
-            
-          
-            </div>
+             {/* Dashboard Content */}
+             <div className='flex-1 flex flex-col items-start justify-between overflow-hidden w-full px-6 pt-6 min-h-screen '>
 
-             <div className='flex mt-6 items-center justify-between'>
-                 {/* filter and sort wrap*/}
-                 <div>
-{/* Sort by priority, assignee, status */}
-              <div className='flex items-center gap-8'>
-                <p>Filter By : </p>
+                <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} tasks={tasks}/>
+
+  {/* filter wrap*/}
+             <div className='flex w-full mt-6 items-center justify-between'>
+               
+                 <div className=''>
+                {/* Filter by priority, assignee, status */}
+                <div className='flex items-center gap-8'>
+                <p className=''>Filter By :</p>
                 <div className='flex flex-wrap items-center gap-4'>
                     <input onChange={(e =>
                     setFilterByAssignee(e.target.value))
-                    } className='px-5 py-2 bg-[#001f3e]' type="text" name="" placeholder='Assignee' id="" />
+                    } className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e] w-[70px] lg:w-auto' type="text" name="" placeholder='Assignee' id="" />
                     <select onChange={(e=>
-                      setFilterByPriority(e.target.value))} className='px-5 py-2 bg-[#001f3e]' name="Priority" id="">
+                      setFilterByPriority(e.target.value))} className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' name="Priority" id="">
                         <option selected value="Priority" disabled>Priority</option>
                         <option value="p0">P0</option>
                         <option value="p1">P1</option>
@@ -156,16 +179,26 @@ const Dashboard = () => {
                     </select>
                     <input onChange={(e) => {
                       setFilterByDate(e.target.value);
-                    }} className='px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
+                    }} className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
                 </div>
             </div>
-            {/* Sort by priority */}
-            <div className='flex items-center gap-8'>
-                <p>Sort By : </p>
+                 </div>
+
+            <div className='hidden lg:flex items-center justify-end'>
+              {/* Add task button*/}
+              <button onClick={() => {
+                    setIsOpen(!isOpen);
+                }} className='px-5 py-2 text-sm font-semibold text-gray-800 bg-[#c0ff3a] rounded-sm'>Add new task</button>
+            </div>
+             </div>
+
+              {/* Sort by priority */}
+            <div className='flex mt-6 items-center gap-8'>
+                <p>Sort By: </p>
                 <div className='flex flex-wrap items-center gap-4'>
                     
                     <select onChange={(e=>
-                      setSortDirection(e.target.value))} className='px-5 py-2 bg-[#001f3e]' name="Priority" id="">
+                      setSortDirection(e.target.value))} className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' name="Priority" id="">
                         <option selected value="Priority" disabled>Priority</option>
                         <option value="ascending">P0 - P2</option>
                         <option value="descending">P2 - P0</option>
@@ -173,25 +206,25 @@ const Dashboard = () => {
                  
                 </div>
             </div>
-                 </div>
-
-            {/* Add task button*/}
-                <button onClick={() => {
-                    setIsOpen(!isOpen);
-                }} className='px-5 py-2 text-sm font-semibold text-gray-800 bg-[#c0ff3a] rounded-sm'>Add new task</button>
-             </div>
 
 
                 {/* All Tasks */}
-
-                <div className='flex flex-shrink-0 xl:flex-shrink-1  items-center overflow-x-scroll xl:overflow-x-visible justify-between mt-12 h-[60vh] gap-0'>
+                <div className='flex flex-shrink-0 xl:flex-shrink-0  items-center overflow-x-scroll xl:overflow-x-scroll justify-between  w-full mt-12 h-auto xl:h-[60vh] gap-8'>
                     {taskTypes.map((type, index)=> 
                         <TaskList sortDirection={sortDirection} handleDeleteTask={handleDeleteTask} setIsEditTask={setIsEditTask}  
                         handleEditTask={handleEditTask} filterByAssignee={filterByAssignee} filterByDate={filterByDate} filterByPriority={filterByPriority} type={type} allTasks={tasks} key={index} heading={type}/>
                         )}
                 </div>
+                {/* Add task button */}
+                <div className='block w-full lg:hidden'>
+                  
+              <button onClick={() => {
+                    setIsOpen(!isOpen);
+                }} className='px-5 my-6  py-2 w-full text-sm font-semibold text-gray-800 bg-[#c0ff3a] rounded-sm'>Add new task</button>
+                </div>
                  <Outlet/>
              </div>
+         </div>
          </div>
     );
 };
