@@ -164,12 +164,12 @@ const Dashboard = () => {
                
                  <div className=''>
                 {/* Filter by priority, assignee, status */}
-                <div className='flex items-center gap-8'>
+                <div className='flex text-white items-center gap-8'>
                 <p className=''>Filter By :</p>
-                <div className='flex flex-wrap items-center gap-4'>
+                <div className='flex text-white flex-wrap items-center gap-4'>
                     <input onChange={(e =>
                     setFilterByAssignee(e.target.value))
-                    } className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e] w-[70px] lg:w-auto' type="text" name="" placeholder='Assignee' id="" />
+                    } className='px-2 text-white placeholder:text-white text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e] w-[70px] lg:w-auto' type="text" name="" placeholder='Assignee' id="" />
                     <select onChange={(e=>
                       setFilterByPriority(e.target.value))} className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' name="Priority" id="">
                         <option selected value="Priority" disabled>Priority</option>
@@ -179,7 +179,7 @@ const Dashboard = () => {
                     </select>
                     <input onChange={(e) => {
                       setFilterByDate(e.target.value);
-                    }} className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
+                    }} className='px-2 text-white text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' type="date" name="" id="" />
                 </div>
             </div>
                  </div>
@@ -193,9 +193,9 @@ const Dashboard = () => {
              </div>
 
               {/* Sort by priority */}
-            <div className='flex mt-6 items-center gap-8'>
+            <div className='flex mt-6 text-white items-center gap-8'>
                 <p>Sort By: </p>
-                <div className='flex flex-wrap items-center gap-4'>
+                <div className='flex text-white flex-wrap items-center gap-4'>
                     
                     <select onChange={(e=>
                       setSortDirection(e.target.value))} className='px-2 text-[10px] lg:text-[14px] md:px-3 lg:px-5 py-2 bg-[#001f3e]' name="Priority" id="">
